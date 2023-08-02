@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# using ping checks if the hosts are on the network
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 {IP_ADDRESS}"
+	exit 1
+fi
+ping -c 5 "$1"
