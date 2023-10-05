@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Display information about subdomains
+
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
+fi
+
+domain="$1"
+
+subdomains=("www" "lb-01" "web-01" "web-02")
+
+if [ $# -eq 2 ]; then
+    subdomains=("$2")
+fi
+
+get_subdomain_info() {
+    subdomain="$1"
+    result=$(dig "$subdomain.$domain" +short)
+
+    if [ -z "$result" ]; then
+        echo "The subdomain $subdomain does not exist."
+    else
+        echo "The subdomain $subdomain is a A record and points to $result"
+    fi
+}
+
+for subdomain in "${subdomains[@]}"; do
+    get_subdomain_info "$subdomain"
+done
