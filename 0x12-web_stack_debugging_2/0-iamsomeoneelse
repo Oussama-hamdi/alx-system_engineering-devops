@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Run the 'whoami' command as the specified user
+if [ $# -eq 0 ]; then
+    whoami
+else
+    if [ $# -ne 1 ]; then
+        exit 1
+    fi
+    sudo -u "$1" whoami
+fi
