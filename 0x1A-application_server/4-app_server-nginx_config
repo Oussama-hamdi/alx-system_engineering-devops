@@ -1,0 +1,35 @@
+server {
+    listen 0.0.0.0:80; # Listen on all available network interfaces
+    server_name 54.167.94.23;
+
+    # ... additional server configurations ...
+
+
+    location / {
+        # ... your location configurations ...
+        root /var/www/html;
+        index index.html;
+        proxy_pass http://backend;
+        add_header X-Served-By $host;
+    }
+
+    location /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+        add_header X-Served-By $host;
+    }
+
+    location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+        proxy_set_header Host $host;
+    }
+
+    location /api {
+        proxy_pass http://127.0.0.1:5002/api;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+            root /var/www/html;
+            internal;
+    }
+}
